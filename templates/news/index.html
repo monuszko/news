@@ -1,0 +1,18 @@
+{% if entry_list %}
+<h1>Some news site</h1>
+<p><a href="form/">Submit news</a></p>
+    <ul>
+        {% for entry in entry_list %}
+            <li>
+                <span class="date">{{ entry.created_at }}</span>
+                <span class="title">{{ entry.title }}</span>
+                <p>
+                {{ entry.content|linebreaks }}
+                </p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No news.</p>
+{% endif %}
+
