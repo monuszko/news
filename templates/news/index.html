@@ -1,0 +1,23 @@
+{% extends "news/base.html" %}
+
+    {% block main %}
+    <h1>Simple news site</h1>
+
+    {% if entry_list %}
+        <ul class="plain">
+            {% for entry in entry_list %}
+                <li class="entry">
+                    <article>
+                        <header>
+                        <h2>{{ entry.title }}</h2>
+                        <p class="date">{{ entry.created_at }}</p>
+                        </header>
+                        {{ entry.content|urlize|linebreaks}}
+                    </article>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No news.</p>
+    {% endif %}
+    {% endblock main %}

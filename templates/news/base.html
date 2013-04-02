@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}" />
+<title>Simple news site</title>
+</head>
+
+<body>
+    
+    <div id="sidebar">
+        {% block sidebar %}
+        <nav>
+            <ul class="plain">
+                <li><a href="/news">Home</a></li>
+                <li><a href="form/">Submit news</a></li>
+            </ul>
+        </nav>
+        {% endblock %}
+    </div>
+
+    <div id="main">
+        {% block main %}{% endblock %}
+    </div>
+</body>
+</html>
+
