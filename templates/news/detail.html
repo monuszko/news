@@ -1,0 +1,23 @@
+{% extends "news/base.html" %}
+
+
+
+{% block pager-top %}
+{% include "news/pager.html" %}
+{% endblock %}
+
+
+{% block main %}
+    <article class="shadow content-box">
+        <header>
+        <h2>{{ entry.title }}</h2>
+        <p class="date">{{ entry.created_at.date }}</p>
+        </header>
+        {{ entry.content|urlize|linebreaks}}
+    </article>
+{% endblock %}
+
+
+{% block pager-bottom %}
+{% include "news/pager.html" %}
+{% endblock %}

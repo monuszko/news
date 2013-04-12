@@ -6,13 +6,16 @@
     {% if entry_list %}
         <ul class="plain">
             {% for entry in entry_list %}
-                <li class="entry">
-                    <article>
+                <li>
+                    <article class="shadow content-box">
                         <header>
                         <h2>{{ entry.title }}</h2>
                         <p class="date">{{ entry.created_at }}</p>
                         </header>
-                        {{ entry.content|urlize|linebreaks}}
+                        {{ entry.content|truncatechars:350|urlizetrunc:35|linebreaks}}
+                        {% if entry.content|length > 350 %}
+                            <a href="{{ entry.get_absolute_url }}">Read More</a>
+                        {% endif %}
                     </article>
                 </li>
             {% endfor %}

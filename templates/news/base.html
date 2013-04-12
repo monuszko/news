@@ -10,18 +10,26 @@
     
     <div id="sidebar">
         {% block sidebar %}
-        <nav>
+        <nav class="shadow">
             <ul class="plain">
-                <li><a href="/news">Home</a></li>
-                <li><a href="/news/form/">Submit news</a></li>
+                <li><a href="{% url news.views.index %}">Home</a></li>
+                <li><a href="{% url news.views.form %}">Submit news</a></li>
             </ul>
         </nav>
         {% endblock %}
     </div>
 
+        <nav class="pager">
+            {% block pager-top %}{% endblock %}
+        </nav>
+
     <div id="main">
-        {% block main %}{% endblock %}
+            {% block main %}{% endblock %}
     </div>
+
+        <nav class="pager">
+            {% block pager-bottom %}{% endblock %}
+        </nav>
 </body>
 </html>
 

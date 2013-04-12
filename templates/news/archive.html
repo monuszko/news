@@ -1,0 +1,23 @@
+{% extends "news/base.html" %}
+
+{% block pager-top %}
+    {% include "news/pager.html" %}
+{% endblock %}
+
+{% block main %}
+<h2>Archive for day {{ current_date|date:"Y/m/d" }}</h2>
+<ul class="plain shadow content-box">
+{% for e in entry_list %}
+    <li>
+        {{ e.created_at|time:"H:i" }}
+        <a href="{{ e.get_absolute_url }}">{{ e.title }}</a>
+    </li>
+{% empty %}
+    <li>No entries.</li>
+{% endfor %}
+</ul>
+{% endblock main %}
+
+{% block pager-bottom %}
+    {% include "news/pager.html" %}
+{% endblock %}
