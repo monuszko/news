@@ -30,13 +30,57 @@ def day_archive(request, year, month, day):
                                           created_at__lt=cd).exists() else None
     nd = cd + one_day
     nd = nd if Entry.objects.exclude(created_at__year=cd.year, 
-            created_at__month=cd.month, created_at__day=cd.day).filter(
+                                     created_at__month=cd.month, 
+                                     created_at__day=cd.day).filter(
                                           created_at__gt=cd).exists() else None
 
-    entry_list = Entry.objects.filter(created_at__year=year, created_at__month=month, created_at__day=day)
-    return render_to_response('news/archive.html', 
-            {'entry_list': entry_list, 'prev_date': pd, 
-                                    'next_date': nd, 'current_date': cd})
+    entry_list = Entry.objects.filter(created_at__year=year, 
+                                      created_at__month=month, 
+                                      created_at__day=day)
+    return render_to_response('news/day_archive.html', 
+                                                  {'entry_list': entry_list, 
+                                                   'prev_day': pd,
+                                                   'next_day': nd, 
+                                                   'current_day': cd})
+
+
+def month_archive(request, year, month):
+    cm = datetime.datetime(int(year), int(month), 1).replace(tzinfo=utc)
+    one_day = datetime.timedelta(days=1)
+
+    pm = cm - one_day
+    pm = pm if Entry.objects.filter(created_at__lt=cm).exists() else None
+
+    nm = cm + datetime.timedelta(days=31)
+    nm = nm if Entry.objects.exclude(created_at__year=cm.year, 
+            created_at__month=cm.month).filter(created_at__gt=cm).exists() else None
+
+    entry_list = Entry.objects.filter(created_at__year=year, 
+                                      created_at__month=month)
+    return render_to_response('news/month_archive.html', 
+                                                  {'entry_list': entry_list,
+                                                   'prev_month': pm, 
+                                                   'next_month': nm,
+                                                   'current_month': cm})
+
+
+def year_archive(request, year):
+    cy = datetime.datetime(int(year), 1, 1).replace(tzinfo=utc)
+    one_day = datetime.timedelta(days=1)
+    py = py if Entry.objects.filter(created_at__lt=cy).exists() else None
+    ny = ny if Entry.objects.exclude(
+                                     created_at__year=cy.year).filter(
+                                     created_at__gt=cy).exists() else None
+
+    entry_list = Entry.objects.filter(created_at__year=year)
+
+    month_list = [str(month).rjust(2, '0') for month in range(1, 13)]
+    return render_to_response('news/year_archive.html',
+                                                     {'month_list': month_list,
+                                                      'prev_year': py,
+                                                      'next_year': ny,
+                                                      'current_year': cy})
+
 
 
 def form(request):
