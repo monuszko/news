@@ -9,5 +9,3 @@ urlpatterns = patterns('news.views',
         url(r'^(?P<year>\d{4})/$', 'year_archive'),
         )
 
-
-# 2004/12/15/Joel-is-a-slug
