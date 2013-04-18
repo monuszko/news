@@ -7,9 +7,8 @@ now = utcnow() # replacing - date.now() causes problems with auto_now_add
 # TODO: set Site for 'View on site'
 
 class PublicEntryManager(models.Manager):
-    def get_queryset(self):
-        articles = super(PublicEntryManager, self).get_queryset().filter(created_at__gt=utcnow(), title__startswith='Raz')
-        return articles
+    def get_query_set(self):
+        return super(PublicEntryManager, self).get_query_set().filter(created_at__lt=utcnow())
 
 class Entry(models.Model):
     created_at = models.DateTimeField(default=now, editable=False)
