@@ -7,7 +7,6 @@ body {
 #sidebar {
   float: left;
   width: 200px;
-  background-color: white;
 }
 
 #main {
@@ -27,6 +26,10 @@ body {
     margin-top: 15px;
 }
 
+
+nav {
+    background-color: white;
+}
 
 .shadow {
     -moz-box-shadow:    3px 3px 5px 6px #ccc;

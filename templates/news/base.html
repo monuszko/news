@@ -1,4 +1,6 @@
 {% load static %}
+{% load url from future %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +14,8 @@
         {% block sidebar %}
         <nav class="shadow">
             <ul class="plain">
-                <li><a href="{% url news.views.index %}">Home</a></li>
-                <li><a href="{% url news.views.form %}">Submit news</a></li>
+                <li><a href="{% url 'news.views.index' %}">Home</a></li>
+                <li><a href="{% url 'news.views.form' %}">Submit news</a></li>
             </ul>
         </nav>
         {% endblock %}

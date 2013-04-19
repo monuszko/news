@@ -17,6 +17,7 @@ def create_entry(title, content, days):
                                  content=unicode(content),
                                  slug=slugify(title),
          created_at = utcnow() + datetime.timedelta(days=days))
+    return entry
 
 
 class NewsIndexTests(TestCase):
@@ -83,4 +84,25 @@ class NewsIndexTests(TestCase):
                 ['<Entry: Past entry 2>', '<Entry: Past entry 1>']
         )
 
+
+class NewsDetailTests(TestCase):
+    def test_detail_view_with_a_future_entry(self):
+        """
+        The detail view of an entry with a created_at date
+        in the future should return a 404 not found.
+        """
+        future_entry = create_entry(title='Future Entry', content='Abc',
+                days=6)
+        response = self.client.get(future_entry.get_absolute_url())
+        self.assertEqual(response.status_code, 404)
+
+    def test_detail_view_with_a_past_entry(self):
+        """
+        The detail view of an entry with a created_at date in the past should
+        display the entry's title.
+        """
+        past_entry = create_entry(title='Past Entry', content='Def',
+                days=-6)
+        response = self.client.get(past_entry.get_absolute_url())
+        self.assertContains(response, past_entry.title, status_code=200)
 

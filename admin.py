@@ -7,4 +7,4 @@ class EntryAdmin(admin.ModelAdmin):
     list_filter = ['created_at']
     date_hierarchy = 'created_at'
 
-admin.site.register(Entry, EntryAdmin)
+admin.site.register(Entry)

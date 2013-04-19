@@ -40,3 +40,8 @@ class Entry(models.Model):
     class Meta:
         ordering = ['-created_at']
 
+class EntryComment(models.Model):
+    entry = models.ForeignKey(Entry)
+    created_at = models.DateTimeField(default=now, editable=False)
+    content = models.TextField()
+    signature = models.CharField(max_length = 20)
