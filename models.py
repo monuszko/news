@@ -11,7 +11,7 @@ class PublicEntryManager(models.Manager):
         return super(PublicEntryManager, self).get_query_set().filter(created_at__lt=utcnow())
 
 class Entry(models.Model):
-    created_at = models.DateTimeField(default=now, editable=False)
+    created_at = models.DateTimeField(default=now, editable=True)
     title      = models.CharField(max_length = 50)
     content    = models.TextField()
     slug       = models.SlugField(unique=True) # unique_for_date is buggy
@@ -40,8 +40,14 @@ class Entry(models.Model):
     class Meta:
         ordering = ['-created_at']
 
-class EntryComment(models.Model):
+class Comment(models.Model):
     entry = models.ForeignKey(Entry)
     created_at = models.DateTimeField(default=now, editable=False)
     content = models.TextField()
     signature = models.CharField(max_length = 20)
+    def __unicode__(self):
+        return self.content[:15]
+    class Meta:
+        ordering = ['created_at']
+
+

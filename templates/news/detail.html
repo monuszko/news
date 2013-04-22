@@ -1,11 +1,8 @@
 {% extends "news/base.html" %}
 
-
-
 {% block pager-top %}
 {% include "news/pager.html" %}
 {% endblock %}
-
 
 {% block main %}
     <article class="shadow content-box">
@@ -17,7 +14,22 @@
     </article>
 {% endblock %}
 
-
 {% block pager-bottom %}
 {% include "news/pager.html" %}
 {% endblock %}
+
+{% block after-pager %}
+    <div id="comments">
+    <h2>Comment</h2>
+    <form action="." method="POST">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+    </form>
+    {% for c in comments %}
+        <p>{{ c.created_at|date:"d:H:i" }}</p>
+        <p>{{ c.content|linebreaks }}</p>
+        <p>{{ c.signature }}</p>
+    {% endfor %}
+</div>
+{% endblock %}
+

@@ -9,7 +9,6 @@
 </head>
 
 <body>
-    
     <div id="sidebar">
         {% block sidebar %}
         <nav class="shadow">
@@ -32,6 +31,8 @@
         <nav class="pager">
             {% block pager-bottom %}{% endblock %}
         </nav>
+        {% block after-pager %}
+        {% comment %}Comments on 'detail' page go here, etc.{% endcomment %}
+        {% endblock %}
 </body>
 </html>
-

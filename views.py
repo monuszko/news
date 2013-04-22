@@ -1,7 +1,7 @@
 from django.shortcuts import render, Http404
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
-from news.forms import EntryForm
+from news.forms import EntryForm, CommentForm
 from news.models import Entry
 from django.utils.timezone import utc
 import datetime
@@ -17,9 +17,23 @@ def detail(request, year, month, day, slug):
                                             created_at__day=day).get(slug=slug)
     except Entry.DoesNotExist:
         raise Http404
+
+    comments = e.comment_set.all()
     prev_entry = e.prev_entry()
     next_entry = e.next_entry()
-    return render(request, 'news/detail.html', {'entry': e, 'prev_entry': prev_entry, 'next_entry': next_entry})
+    
+    # comment form:
+    if request.method == 'POST': 
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            c = form.save(commit=False)
+            c.entry = e
+            c.save()
+    else:
+        form = CommentForm()
+
+    return render(request, 'news/detail.html', {'entry': e, 'prev_entry': prev_entry, 'next_entry': next_entry,
+        'comments': comments, 'form': form})
 
 # TODO: reimplement using unique_for_date once it's patched
 

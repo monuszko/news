@@ -1,5 +1,4 @@
 {% extends "news/base.html" %}
-
     {% block main %}
     <h1>Simple news site</h1>
 
@@ -13,9 +12,10 @@
                         <p class="date">{{ entry.created_at }}</p>
                         </header>
                         {{ entry.content|truncatechars:350|urlizetrunc:35|linebreaks}}
-                        {% if entry.content|length > 350 %}
-                            <a href="{{ entry.get_absolute_url }}">Read More</a>
-                        {% endif %}
+                        <a href="{{ entry.get_absolute_url }}">Read More</a>
+                        {% if entry.content|length > 350 %}{{ entry.content|length }} characters{% endif %}
+                        {% if entry.content|length > 350 and entry.comment_set.all.count > 0 %} and {% endif %}
+                        {% if entry.comment_set.all.count > 0 %}{{ entry.comment_set.all.count }} comments{% endif %}
                     </article>
                 </li>
             {% endfor %}
