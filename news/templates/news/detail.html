@@ -1,4 +1,8 @@
 {% extends "news/base.html" %}
+{% load static %}
+{% block head-extra %}
+<link rel="stylesheet"style type="text/css" href="{% static 'news/detail.css' %}" />
+{% endblock %}
 
 {% block pager-top %}
 {% include "news/pager.html" %}
@@ -30,6 +34,6 @@
         <p>{{ c.content|linebreaks }}</p>
         <p>{{ c.signature }}</p>
     {% endfor %}
-</div>
+    </div>
 {% endblock %}
 

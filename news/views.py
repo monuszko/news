@@ -109,13 +109,3 @@ def year_archive(request, year):
                                                      'current_year': cy
                                                                        })
 
-
-def form(request):
-    if request.method == 'POST':
-        form = EntryForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/news')
-    else:
-        form = EntryForm()
-    return render(request, 'news/form.html', {'form': form})

@@ -6,6 +6,8 @@
 <head>
 <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}" />
 <title>Simple news site</title>
+{% block head-extra %}
+{% endblock %}
 </head>
 
 <body>
@@ -14,7 +16,6 @@
         <nav class="shadow">
             <ul class="plain">
                 <li><a href="{% url 'news.views.index' %}">Home</a></li>
-                <li><a href="{% url 'news.views.form' %}">Submit news</a></li>
             </ul>
         </nav>
         {% endblock %}
