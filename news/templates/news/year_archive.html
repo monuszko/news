@@ -1,4 +1,5 @@
 {% extends "news/base.html" %}
+{% load url from future %}
 
 {% block pager-top %}
     {% include "news/pager.html" %}
@@ -7,9 +8,9 @@
 {% block main %}
 <h2>Archive for year {{ current_year|date:"Y" }}</h2>
 <ul class="plain shadow content-box">
-{% for month, num_entries in months.items %}
-<li><a href="{% url news.views.month_archive current_year.year month %}">Month {{ month }}</a>
-{% if num_entries %}({{ num_entries }}){% endif %}</li>
+{% for month, num_entries in months %}
+    <li><a href="{% url 'news:month_archive' current_year.year month|date:'m' %}">{{ month|date:'F' }}</a>
+    {% if num_entries %}({{ num_entries }}){% endif %}</li>
 {% endfor %}
 </ul>
 {% endblock main %}

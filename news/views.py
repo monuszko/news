@@ -75,10 +75,17 @@ def month_archive(request, year, month):
     nm = nm if Entry.public.exclude(created_at__year=cm.year, 
             created_at__month=cm.month).filter(created_at__gt=cm).exists() else None
 
-    entry_list = Entry.public.filter(created_at__year=year, 
-                                      created_at__month=month)
+    day = cm # day as date gives extra flexibility in templates
+    days = []
+    while day.month== cm.month:
+        num_entries = Entry.public.filter(created_at__year=day.year,
+                                          created_at__month=day.month,
+                                          created_at__day=day.day).count()
+        days.append((day, num_entries))
+        day += one_day
+
     return render(request, 'news/month_archive.html', 
-                                                     {'entry_list': entry_list,
+                                                     {'days': days,
                                                       'prev_month': pm, 
                                                       'next_month': nm,
                                                       'current_month': cm
@@ -87,20 +94,24 @@ def month_archive(request, year, month):
 
 def year_archive(request, year):
     cy = datetime.datetime(int(year), 1, 1).replace(tzinfo=utc)
-    one_day = datetime.timedelta(days=1)
+    one_month = datetime.timedelta(days=31)
 
-    py = cy - one_day
+    py = cy.replace(year=cy.year-1)
     py = py if Entry.public.filter(created_at__lt=cy).exists() else None
 
-    ny = cy + datetime.timedelta(days=366)
+    ny = cy.replace(year=cy.year+1)
     ny = ny if Entry.public.exclude(
                                      created_at__year=cy.year).filter(
                                      created_at__gt=cy).exists() else None
 
-    months = {str(month).rjust(2, '0'): None for month in range(1, 13)}
-    for month in months:
-        months[month] = Entry.public.filter(created_at__year=cy.year,
-                                       created_at__month=month).count()
+
+    month = cy # month as date gives extra flexibility in templates
+    months = []
+    while month.year == cy.year:
+        num_entries = Entry.public.filter(created_at__year=month.year,
+                                          created_at__month=month.month).count()
+        months.append((month, num_entries))
+        month += one_month
 
     return render(request, 'news/year_archive.html', 
                                                     {'months': months,

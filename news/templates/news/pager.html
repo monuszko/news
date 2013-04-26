@@ -1,21 +1,21 @@
 {% load url from future %}
 {% if entry %}{% comment %} Article detail page {% endcomment %}
     {% if prev_entry.get_absolute_url %}<a href="{{ prev_entry.get_absolute_url }}" class="left">Previous entry</a> {% endif %}
-    <a href="{% url 'news.views.day_archive' entry.created_at.year entry.created_at|date:'m' entry.created_at|date:'d' %}" class="center">Same day</a>
+    <a href="{% url 'news:day_archive' entry.created_at.year entry.created_at|date:'m' entry.created_at|date:'d' %}" class="center">Same day</a>
     {% if next_entry.get_absolute_url %}<a href="{{ next_entry.get_absolute_url }}" class="right">Next entry</a>{% endif %}
 {% elif current_day %}
-    {% if prev_day %}<a href="{% url 'news.views.day_archive' prev_day.year prev_day|date:'m' prev_day|date:'d' %}" class="left">Previous day</a>{% endif %}
-    <a href="{% url 'news.views.month_archive' current_day.year current_day|date:'m' %}" class="center">Same month</a>
-    {% if next_day %}<a href="{% url 'news.views.day_archive' next_day.year next_day|date:'m' next_day|date:'d' %}" class="right">Next day</a>{% endif %}
+    {% if prev_day %}<a href="{% url 'news:day_archive' prev_day.year prev_day|date:'m' prev_day|date:'d' %}" class="left">Previous day</a>{% endif %}
+    <a href="{% url 'news:month_archive' current_day.year current_day|date:'m' %}" class="center">Same month</a>
+    {% if next_day %}<a href="{% url 'news:day_archive' next_day.year next_day|date:'m' next_day|date:'d' %}" class="right">Next day</a>{% endif %}
 {% elif current_month %}
-    {% if prev_month %}<a href="{% url 'news.views.month_archive' prev_month.year prev_month|date:'m' %}" class="left">Previous month</a>{% endif %}
-    <a href="{% url 'news.views.year_archive' current_month.year %}" class="center">Same year</a>
-    {% if next_month %}<a href="{% url 'news.views.month_archive' next_month.year next_month|date:'m' %}" class="right">Next month</a>{% endif %}
+    {% if prev_month %}<a href="{% url 'news:month_archive' prev_month.year prev_month|date:'m' %}" class="left">Previous month</a>{% endif %}
+    <a href="{% url 'news:year_archive' current_month.year %}" class="center">Same year</a>
+    {% if next_month %}<a href="{% url 'news:month_archive' next_month.year next_month|date:'m' %}" class="right">Next month</a>{% endif %}
     {% elif current_year %}
-    {% if prev_year %}<a href="{% url 'news.views.year_archive' prev_year.year %}" class="left">Previous year</a>{% endif %}
+    {% if prev_year %}<a href="{% url 'news:year_archive' prev_year.year %}" class="left">Previous year</a>{% endif %}
 
     {% if next_year %}
-    <a href="{% url 'news.views.year_archive' next_year.year %}" class="right">Next year</a>
+    <a href="{% url 'news:year_archive' next_year.year %}" class="right">Next year</a>
     {% endif %}
 {% endif %}
 

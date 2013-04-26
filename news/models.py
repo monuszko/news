@@ -24,7 +24,7 @@ class Entry(models.Model):
         m = str(self.created_at.month).rjust(2, '0')
         d = str(self.created_at.day).rjust(2, '0')
         sl = self.slug
-        return reverse('news.views.detail', kwargs={'year': y, 'month': m, 'day': d, 'slug': sl})
+        return reverse('news:detail', kwargs={'year': y, 'month': m, 'day': d, 'slug': sl})
     def prev_entry(self):
         try:
             result = Entry.public.filter(created_at__lt=self.created_at)[0]

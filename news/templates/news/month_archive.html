@@ -1,14 +1,17 @@
 {% extends "news/base.html" %}
+{% load url from future %}
 
 {% block pager-top %}
     {% include "news/pager.html" %}
 {% endblock %}
 
 {% block main %}
-<h2>Archive for month {{ current_month|date:"Y/m" }}</h2>
+<h2>Archive for {{ current_month|date:"F"}} {{ current_month|date:"Y" }}</h2>
 <ul class="plain shadow content-box">
-{% for e in entry_list %}
-    <li>{{ e.created_at|date:"m/d" }}<a href="{{ e.get_absolute_url }}">{{ e.title }}</a></li>
+{% for day, num_entries in days %}
+<li>{{ day.created_at|date:"F d" }}
+    <a href="{% url 'news:day_archive' current_month.year day|date:'m' day|date:'d' %}">{{ day|date:'d' }}</a>
+    {% if num_entries %} ({{ num_entries }}){% endif %}</li>
 {% empty %}
     <li>No entries for this month.</li>
 {% endfor %}

@@ -25,7 +25,7 @@ class NewsIndexTests(TestCase):
         """
         If no entries exist, an appropriate message should be displayed.
         """
-        response = self.client.get(reverse('news.views.index'))
+        response = self.client.get(reverse('news:index'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'No news.')
         self.assertQuerysetEqual(response.context['entry_list'], [])
@@ -38,7 +38,7 @@ class NewsIndexTests(TestCase):
         content="and we'll create a factory method to create polls as well as a new test class:",
         days=-30)
 
-        response = self.client.get(reverse('news.views.index'))
+        response = self.client.get(reverse('news:index'))
         self.assertQuerysetEqual(response.context['entry_list'], ['<Entry: A past entry>'])
 
     def test_index_view_with_a_future_entry(self):
@@ -56,7 +56,7 @@ class NewsIndexTests(TestCase):
                             things change. The message here is, however, that many, many things can
                             change and your URIs can and should stay the same. They only can if you
                             think about how you design them.""")
-        response = self.client.get(reverse('news.views.index'))
+        response = self.client.get(reverse('news:index'))
         self.assertContains(response, "No news.", status_code=200)
         self.assertQuerysetEqual(response.context['entry_list'], []
         )
@@ -71,7 +71,7 @@ class NewsIndexTests(TestCase):
         create_entry(title='A future entry',
         content="_.-=-._.-=-._.-=-._.-=-._.-=-._.-=-._.-=-._.-=-.",
         days=30)
-        response = self.client.get(reverse('news.views.index'))
+        response = self.client.get(reverse('news:index'))
         self.assertQuerysetEqual(
                 response.context['entry_list'], ['<Entry: A past entry>']
         )
@@ -79,7 +79,7 @@ class NewsIndexTests(TestCase):
     def test_index_view_with_two_past_entries(self):
         create_entry(title='Past entry 1', content="Borsuk", days=-30)
         create_entry(title='Past entry 2', content="Pies", days=-5)
-        response = self.client.get(reverse('news.views.index'))
+        response = self.client.get(reverse('news:index'))
         self.assertQuerysetEqual(response.context['entry_list'],
                 ['<Entry: Past entry 2>', '<Entry: Past entry 1>']
         )
