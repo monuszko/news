@@ -1,8 +1,7 @@
 {% extends "news/base.html" %}
 {% load url from future %}
-    {% block main %}
-    <h1>Simple news site</h1>
-
+{% block main %}
+<h1>Simple news site</h1>
     {% if entry_list %}
         <ul class="plain">
             {% for entry in entry_list %}
@@ -24,4 +23,8 @@
     {% else %}
         <p>No news.</p>
     {% endif %}
-    {% endblock main %}
+{% endblock main %}
+
+{% block pager-bottom %}
+    {% include "news/pager.html" %}
+{% endblock %}

@@ -1,13 +1,24 @@
+from news.models import Entry
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, Http404
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
-from news.forms import EntryForm, CommentForm
-from news.models import Entry
+from news.forms import CommentForm
 from django.utils.timezone import utc
 import datetime
 
 def index(request):
     entry_list = Entry.public.all()
+    return render(request, 'news/index.html', {'entry_list': entry_list})
+
+
+def next_page(request, page_number):
+    page_number = int(page_number)
+    if page_number == 1:
+        return HttpResponseRedirect(reverse('news:index'))
+    per_page = 2
+    start = (page_number - 1) * per_page
+    entry_list = Entry.public.all()[start:start + per_page]
     return render(request, 'news/index.html', {'entry_list': entry_list})
 
 

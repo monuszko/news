@@ -1,4 +1,9 @@
 {% load url from future %}
+
+{% if entry_list %}
+
+{% endif %}
+
 {% if entry %}{% comment %} Article detail page {% endcomment %}
     {% if prev_entry.get_absolute_url %}<a href="{{ prev_entry.get_absolute_url }}" class="left">Previous entry</a> {% endif %}
     <a href="{% url 'news:day_archive' entry.created_at.year entry.created_at|date:'m' entry.created_at|date:'d' %}" class="center">Same day</a>
