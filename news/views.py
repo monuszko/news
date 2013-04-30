@@ -1,3 +1,4 @@
+from __future__ import division
 from news.models import Entry
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, Http404
@@ -5,21 +6,29 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from news.forms import CommentForm
 from django.utils.timezone import utc
+from math import ceil
 import datetime
+
+PER_PAGE = 2
 
 def index(request):
     entry_list = Entry.public.all()
     return render(request, 'news/index.html', {'entry_list': entry_list})
 
-
-def next_page(request, page_number):
+def another_page(request, page_number):
     page_number = int(page_number)
     if page_number == 1:
         return HttpResponseRedirect(reverse('news:index'))
-    per_page = 2
-    start = (page_number - 1) * per_page
-    entry_list = Entry.public.all()[start:start + per_page]
-    return render(request, 'news/index.html', {'entry_list': entry_list})
+    start = (page_number - 1) * PER_PAGE
+    entry_list = Entry.public.all()[start:start + PER_PAGE]
+    prev_page = next_page = None
+    if entry_list:
+        prev_page = page_number - 1
+        next_page = page_number + 1 if entry_list.reverse()[0].next_entry() else None
+    return render(request, 'news/index.html', {'entry_list': entry_list,
+                                               'prev_page': prev_page,
+                                               'next_page': next_page
+                                                                     })
 
 
 def detail(request, year, month, day, slug):

@@ -10,8 +10,10 @@ class PublicEntryManager(models.Manager):
     def get_query_set(self):
         return super(PublicEntryManager, self).get_query_set().filter(created_at__lt=utcnow())
 
+# TODO: implement pub_date separate from created_at
+
 class Entry(models.Model):
-    created_at = models.DateTimeField(default=now, editable=True)
+    created_at = models.DateTimeField(default=now, editable=False)
     title      = models.CharField(max_length = 50)
     content    = models.TextField()
     slug       = models.SlugField(unique=True) # unique_for_date is buggy

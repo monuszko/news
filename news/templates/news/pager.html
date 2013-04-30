@@ -1,7 +1,11 @@
 {% load url from future %}
 
-{% if entry_list %}
 
+{% if prev_page %}
+    <a href="{% url 'news:another_page' prev_page %}" class="left">Previous page</a>
+{% endif %}
+{% if next_page %}
+    <a href="{% url 'news:another_page' next_page %}" class="right">Next page</a>
 {% endif %}
 
 {% if entry %}{% comment %} Article detail page {% endcomment %}
