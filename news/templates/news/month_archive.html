@@ -10,7 +10,7 @@
 <ul class="plain shadow content-box">
 {% for day, num_entries in days %}
 <li>{{ day.created_at|date:"F d" }}
-    <a href="{% url 'news:day_archive' current_month.year day|date:'m' day|date:'d' %}">{{ day|date:'d' }}</a>
+    <a href="{% url 'news:day_archive' blog current_month.year day|date:'m' day|date:'d' %}">{{ day|date:'d' }}</a>
     {% if num_entries %} ({{ num_entries }}){% endif %}</li>
 {% empty %}
     <li>No entries for this month.</li>

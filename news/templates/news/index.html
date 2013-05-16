@@ -1,10 +1,13 @@
 {% extends "news/base.html" %}
 {% load url from future %}
+{% load comments %}
+
 {% block main %}
 <h1>Simple news site</h1>
     {% if entry_list %}
         <ul class="plain">
             {% for entry in entry_list %}
+                {% get_comment_count for entry as comment_count %}
                 <li>
                     <article class="shadow content-box">
                         <header>
@@ -14,8 +17,8 @@
                         {{ entry.content|truncatechars:350|urlizetrunc:35|linebreaks}}
                         <a href="{{ entry.get_absolute_url }}">Read More</a>
                         {% if entry.content|length > 350 %}{{ entry.content|length }} characters{% endif %}
-                        {% if entry.content|length > 350 and entry.comment_set.all.count > 0 %} and {% endif %}
-                        {% if entry.comment_set.all.count > 0 %}{{ entry.comment_set.all.count }} comments{% endif %}
+                        {% if entry.content|length > 350 and comment_count > 0 %} and {% endif %}
+                        {% if comment_count > 0 %}{{ comment_count }} comments{% endif %}
                     </article>
                 </li>
             {% endfor %}

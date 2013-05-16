@@ -1,5 +1,8 @@
 {% extends "news/base.html" %}
 {% load static %}
+{% load comments %}
+
+
 {% block head-extra %}
 <link rel="stylesheet"style type="text/css" href="{% static 'news/detail.css' %}" />
 {% endblock %}
@@ -25,15 +28,21 @@
 {% block after-pager %}
     <div id="comments">
     <h2>Comment</h2>
-    <form action="." method="POST">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
-    </form>
-    {% for c in comments %}
-        <p>{{ c.created_at|date:"d:H:i" }}</p>
-        <p>{{ c.content|linebreaks }}</p>
-        <p>{{ c.signature }}</p>
-    {% endfor %}
+
+    {% get_comment_form for entry as form %}
+    <table>
+        <form action="{% comment_form_target %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+            <tr>
+                <td colspan="2">
+                    <input type="submit" name="submit" value="Post">
+                    <input type="submit" name="preview" value="Preview">
+                </td>
+            </tr>
+        </form>
+    </table>
+    {% render_comment_list for entry %}
     </div>
 {% endblock %}
 

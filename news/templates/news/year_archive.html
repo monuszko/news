@@ -9,7 +9,7 @@
 <h2>Archive for year {{ current_year|date:"Y" }}</h2>
 <ul class="plain shadow content-box">
 {% for month, num_entries in months %}
-    <li><a href="{% url 'news:month_archive' current_year.year month|date:'m' %}">{{ month|date:'F' }}</a>
+    <li><a href="{% url 'news:month_archive' blog current_year.year month|date:'m' %}">{{ month|date:'F' }}</a>
     {% if num_entries %}({{ num_entries }}){% endif %}</li>
 {% endfor %}
 </ul>
