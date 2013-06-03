@@ -1,4 +1,5 @@
 {% extends "news/base.html" %}
+{% load url from future %}
 {% load static %}
 {% load comments %}
 
@@ -19,6 +20,7 @@
         </header>
         {{ entry.content|urlize|linebreaks}}
     </article>
+    <a href="{{ entry.get_absolute_url }}edit/">Edit</a>
 {% endblock %}
 
 {% block pager-bottom %}

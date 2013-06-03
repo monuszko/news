@@ -1,0 +1,21 @@
+{% extends "news/base.html" %}
+{% load url from future %}
+{% load static from staticfiles %}
+
+{% block main %}
+<h1>Simple news site</h1>
+<form action="." method="POST">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" name="submit" value="Submit" />
+</form>
+{% endblock main %}
+
+{% block after-pager %}
+<script type="text/javascript" src="{% static "admin/js/urlify.js" %}"></script>
+<script type="text/javascript">
+    document.getElementById("id_title").onkeyup = function() {
+            var e = document.getElementById("id_slug");
+                if (!e._changed) { e.value = URLify(document.getElementById("id_title").value, 50); }
+            }
+        </script>
+{% endblock %}

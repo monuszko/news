@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-
 from django.utils.timezone import now # date.now() malfunctions with auto_now_add
 
 # TODO: set Site for 'View on site'
@@ -16,32 +16,26 @@ class PublicEntryManager(models.Manager):
 
 # TODO: implement pub_date separate from created_at
 
+
 class Blog(models.Model):
     name = models.CharField(max_length=100)
-    urlname = models.CharField(max_length=20, validators=[validate_alnum],
-                                                                   unique=True)
     tagline = models.TextField()
+    author  = models.OneToOneField(User)
 
     def __unicode__(self):
         return self.name
 
-
-class Author(models.Model):
-    name = models.CharField(max_length=50)
-    email = models.EmailField()
-
-    def __unicode__(self):
-        return self.name
 
 class Entry(models.Model):
     blog       = models.ForeignKey(Blog)
     created_at = models.DateTimeField(default=now, editable=False)
     title      = models.CharField(max_length = 50)
     content    = models.TextField()
-    slug       = models.SlugField(unique=True) # unique_for_date is buggy
+    slug       = models.SlugField() # unique_for_date is buggy
     objects    = models.Manager() # default manager
     public     = PublicEntryManager() # without entries from future
-    authors    = models.ManyToManyField(Author)
+    class Meta:
+        unique_together = ('slug', 'blog')
 
     def __unicode__(self):
         return self.title
@@ -51,7 +45,7 @@ class Entry(models.Model):
         m = str(self.created_at.month).rjust(2, '0')
         d = str(self.created_at.day).rjust(2, '0')
         sl = self.slug
-        return reverse('news:detail', kwargs={'blogname': self.blog.urlname, 'year': y, 'month': m, 'day': d, 'slug': sl})
+        return reverse('news:detail', kwargs={'blogname': self.blog.author.username, 'year': y, 'month': m, 'day': d, 'slug': sl})
     def prev_entry(self):
         try:
             result = Entry.public.filter(blog=self.blog,

@@ -11,6 +11,14 @@
 </head>
 
 <body>
+    {% block top-fixed %}
+        {% if username %}
+        Logged in as {{ username }} | <a href="{% url 'news:post' blog %}">Submit news</a> | <a href="{% url 'logout' %}?next={{ path}}">Logout</a>
+        {% else %}
+        You are not logged in. | <a href="{% url 'login' %}?next={{ path }}">Log in</a>
+        {% endif %}
+    {% endblock %}
+
     <div id="sidebar">
         {% block sidebar %}
         <nav class="shadow">

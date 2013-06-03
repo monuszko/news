@@ -1,0 +1,11 @@
+{% extends "news/base.html" %}
+{% load url from future %}
+
+{% block main %}
+<h1>Simple news site</h1>
+<form action="." method="POST">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" name="save" value="Save" />
+    <input type="submit" name="delete" value="Delete" />
+</form>
+{% endblock %}
