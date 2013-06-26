@@ -7,11 +7,15 @@
 
 {% block main %}
 <h2>Archive for {{ current_month|date:"F"}} {{ current_month|date:"Y" }}</h2>
-<ul class="plain shadow content-box">
+<ul class="plain shadow content_box">
 {% for day, num_entries in days %}
 <li>{{ day.created_at|date:"F d" }}
-    <a href="{% url 'news:day_archive' blog current_month.year day|date:'m' day|date:'d' %}">{{ day|date:'d' }}</a>
-    {% if num_entries %} ({{ num_entries }}){% endif %}</li>
+{% if num_entries %}
+    <a href="{% url 'news:day_archive' blog current_month.year day|date:'m' day|date:'d' %}">{{ day|date:'d' }} ({{ num_entries }})</a>
+{% else %}
+    {{ day|date:'d' }}
+{% endif %}
+</li>
 {% empty %}
     <li>No entries for this month.</li>
 {% endfor %}

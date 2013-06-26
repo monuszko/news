@@ -1,26 +1,21 @@
 {% extends "news/base.html" %}
 {% load url from future %}
 {% load static %}
-{% load comments %}
 
-
-{% block head-extra %}
-<link rel="stylesheet"style type="text/css" href="{% static 'news/detail.css' %}" />
-{% endblock %}
+{% block edit %} | <a href="{{ entry.get_absolute_url }}edit/">Edit entry</a>{% endblock %}
 
 {% block pager-top %}
 {% include "news/pager.html" %}
 {% endblock %}
 
 {% block main %}
-    <article class="shadow content-box">
+    <article class="shadow content_box">
         <header>
         <h2>{{ entry.title }}</h2>
         <p class="date">{{ entry.created_at.date }}</p>
         </header>
         {{ entry.content|urlize|linebreaks}}
     </article>
-    <a href="{{ entry.get_absolute_url }}edit/">Edit</a>
 {% endblock %}
 
 {% block pager-bottom %}
@@ -29,22 +24,6 @@
 
 {% block after-pager %}
     <div id="comments">
-    <h2>Comment</h2>
-
-    {% get_comment_form for entry as form %}
-    <table>
-        <form action="{% comment_form_target %}" method="post">
-        {% csrf_token %}
-        {{ form }}
-            <tr>
-                <td colspan="2">
-                    <input type="submit" name="submit" value="Post">
-                    <input type="submit" name="preview" value="Preview">
-                </td>
-            </tr>
-        </form>
-    </table>
-    {% render_comment_list for entry %}
     </div>
 {% endblock %}
 

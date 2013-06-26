@@ -1,32 +1,78 @@
 {% load url from future %}
 
-
-{% if prev_page %}
-    <a href="{% url 'news:index' blog %}?page={{ prev_page }}" class="left">Previous page</a>
-{% endif %}
-{% if next_page %}
-    <a href="{% url 'news:index' blog %}?page={{ next_page }}" class="right">Next page</a>
+{% if entry_list and not the_day %}{% comment %}TODO: Find a more elegant way !@!{% endcomment %}
+    <ul>
+    {% if prev_page %}
+        <li><a href="{% url 'news:index' blog %}?page={{ prev_page }}">Previous page</a></li>
+    {% else %}
+    <li><span class="invisible inactive_link">Prev page</span></li>
+    {% endif %}
+    {% if next_page %}
+    <li><a href="{% url 'news:index' blog %}?page={{ next_page }}">Next page</a></li>
+    {% else %}
+    <li><span class="inactive_link">Next page</span></li>
+    {% endif %}
+    <ul>
 {% endif %}
 
 {% if entry %}
-    {% if prev_entry.get_absolute_url %}<a href="{{ prev_entry.get_absolute_url }}" class="left">Previous entry</a> {% endif %}
-    <a href="{% url 'news:day_archive' blog entry.created_at.year entry.created_at|date:'m' entry.created_at|date:'d' %}" class="center">Same day</a>
-    {% if next_entry.get_absolute_url %}<a href="{{ next_entry.get_absolute_url }}" class="right">Next entry</a>{% endif %}
+    <ul class="pager">
+    {% if prev_entry.get_absolute_url %}
+        <li><a href="{{ prev_entry.get_absolute_url }}">Prev</a></li>
+    {% else %}
+        <li>Prev</li>
+    {% endif %}
+    <li><a href="{% url 'news:day_archive' blog entry.created_at.year entry.created_at|date:'m' entry.created_at|date:'d' %}">Same day</a></li>
+    {% if next_entry.get_absolute_url %}
+        <li><a href="{{ next_entry.get_absolute_url }}">Next</a></li>
+    {% else %}
+    <li><span class="inactive_link">Next</span></li>
+    {% endif %}
+    </ul>
+
 {% elif the_day %}
-    {% if prev_day %}<a href="{% url 'news:day_archive' blog prev_day.year prev_day|date:'m' prev_day|date:'d' %}" class="left">Previous day</a>{% endif %}
-    <a href="{% url 'news:month_archive' blog the_day.year the_day|date:'m' %}" class="center">Same month</a>
-    {% if next_day %}<a href="{% url 'news:day_archive' blog next_day.year next_day|date:'m' next_day|date:'d' %}" class="right">Next day</a>{% endif %}
+<ul>
+    {% if prev_day %}
+    <li><a href="{% url 'news:day_archive' blog prev_day.year prev_day|date:'m' prev_day|date:'d' %}">Previous day</a></li>
+        {% else %}
+        <li>Previous day</li>
+        {% endif %}
+        <li><a href="{% url 'news:month_archive' blog the_day.year the_day|date:'m' %}">Same month</a></li>
+    {% if next_day %}<li><a href="{% url 'news:day_archive' blog next_day.year next_day|date:'m' next_day|date:'d' %}">Next day</a></li>
+    {% else %}
+        <li>Next day</li>
+</ul>
+    {% endif %}
+
 {% elif current_month %}
-    {% if prev_month %}<a href="{% url 'news:month_archive' blog prev_month.year prev_month|date:'m' %}" class="left">Previous month</a>{% endif %}
-    <a href="{% url 'news:year_archive' blog current_month.year %}" class="center">Same year</a>
-    {% if next_month %}<a href="{% url 'news:month_archive' blog next_month.year next_month|date:'m' %}" class="right">Next month</a>{% endif %}
+<ul>
+    {% if prev_month %}
+    <li><a href="{% url 'news:month_archive' blog prev_month.year prev_month|date:'m' %}">Previous month</a></li>
+    {% else %}
+        <li>Previous month</li>
+    {% endif %}
+    <li><a href="{% url 'news:year_archive' blog current_month.year %}">Same year</a></li>
+    {% if next_month %}
+        <li><a href="{% url 'news:month_archive' blog next_month.year next_month|date:'m' %}">Next month</a></li>
+        {% else %}
+        <li>Next month</li>
+</ul>
+    {% endif %}
+
     {% elif current_year %}
-        {% if prev_year %}<a href="{% url 'news:year_archive' blog prev_year.year %}" class="left">Previous year</a>
+    <ul>
+        {% if prev_year %}
+            <li><a href="{% url 'news:year_archive' blog prev_year.year %}">Previous year</a></li>
+        {% else %}
+            <li>Previous year</li>
         {% endif %}
 
         {% if next_year %}
-        <a href="{% url 'news:year_archive' blog next_year.year %}" class="right">Next year</a>
+            <li><a href="{% url 'news:year_archive' blog next_year.year %}">Next year</a></li>
+            {% else %}
+            <li>Next year</li>
         {% endif %}
+    </ul>
 {% endif %}
 
 

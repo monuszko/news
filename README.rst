@@ -26,19 +26,28 @@ Quickstart
 
 1. Add "news" to your INSTALLED_APPS setting like this::
 
-      INSTALLED_APPS = (
-          ...
-          'news',
-      )
+    INSTALLED_APPS = (
+      ...
+      'news',
+    )
 
 2. Include the news URLconf in your project urls.py like this::
 
-      url(r'^news/', include('news.urls')),
+    url(r'^news/', include('news.urls')),
 
-3. Run `python manage.py syncdb` to create the news models.
+3. Add login/logout views to your project's urls.py::
 
-4. Start the development server and visit http://127.0.0.1:8000/admin/
-   to create entries (you'll need the Admin app enabled).
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'news/login.html'}, name='login'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name='logout'),
+
+4. Run `python manage.py syncdb` to create the news models.
+
+5. Start the development server and visit http://127.0.0.1:8000/admin/
+   to create entries, Users and Blogs (you'll need the admin, auth apps 
+   enabled).  Users should be created without 'staff' privileges, otherwise 
+   they can modife each others' Blogs. Appropriate create/edit views 
+   are provided.
+
 
 Contact
 =======

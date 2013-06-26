@@ -9,31 +9,35 @@
 {% block head-extra %}
 {% endblock %}
 </head>
-
 <body>
+    <div id="userbar">
     {% block top-fixed %}
-        {% if username %}
-        Logged in as {{ username }} | <a href="{% url 'news:post' blog %}">Submit news</a> | <a href="{% url 'logout' %}?next={{ path}}">Logout</a>
+        {% if user.is_authenticated %}
+        Logged in as <span id="user">{{ user }}</span> | <a href="{% url 'news:post' blog %}">Submit entry</a> | <a href="{% url 'news:create' blog %}">Create page</a>{% block edit %}{% endblock %} | <a href="{% url 'logout' %}{% block logout-redirect %}?next={{ path }}{% endblock %}">Logout</a>
         {% else %}
         You are not logged in. | <a href="{% url 'login' %}?next={{ path }}">Log in</a>
         {% endif %}
-    {% endblock %}
+    {% endblock top-fixed %}
+    </div>
 
     <div id="sidebar">
         {% block sidebar %}
-        <nav class="shadow">
-            <ul class="plain">
-                <li><a href="{% url 'news:index' blog %}">Home</a></li>
+        <nav>
+            <ul class="sidebar">
+                <li><a class="sidebar" href="{% url 'news:index' blog %}">Home</a></li>
+                {% for page in custompages %}
+                    <li><a class="sidebar" href="{{ page.get_absolute_url }}">{{ page.title }}</a></li>
+                {% endfor %}
             </ul>
         </nav>
         {% endblock %}
     </div>
 
+    <div id="main">
+    <h1 class="center">Simple news site</h1>
         <nav class="pager">
             {% block pager-top %}{% endblock %}
         </nav>
-
-    <div id="main">
             {% block main %}{% endblock %}
     </div>
 

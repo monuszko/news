@@ -1,40 +1,121 @@
 
+/*{ outline: 1px solid fuchsia; } */
+
 body {
-    margin-top: 300px;
-    background: rgb(238, 242, 234) url("images/barsuk.jpg") no-repeat top;
+    background: rgb(240, 240, 240) url("images/barsuk.jpg") no-repeat top;
+}
+
+h1 {
+    padding-top: 400px;
+    padding-bottom: 0px;
+    text-align: center;
+    
 }
 
 #sidebar {
   float: left;
+  margin-top: 400px;
   width: 200px;
 }
 
+ul
+{
+padding: 0px;
+margin-left: 0px;
+list-style-type: none;
+}
+
+#sidebar li 
+{ 
+    margin: 0 0 0.7em 0;
+    -moz-box-shadow:    2px 2px 3px 4px #ccc;
+    -webkit-box-shadow: 2px 2px 3px 4px #ccc;
+    box-shadow:         2px 2px 3px 4px #ccc;
+}
+
+#sidebar a
+{
+display: block;
+color: #000000;
+background-color: rgb(248, 248, 248);
+padding: .2em .8em;
+text-decoration: none;
+}
+
+#sidebar a:hover
+{
+background-color: #369;
+color: #FFF
+}
+
+#userbar {
+background: rgb(195, 195, 195);
+text-align: center;
+position: fixed;
+top: 0%;
+width: 100%;
+}
+
+
+#user { font-weight: bold; }
+
 #main {
-    max-width: 600px;
-    margin: 0 auto;
+margin-top: 400px;
+max-width: 600px;
+margin: 0 auto;
 }
 
 #comments {
-    max-width: 600px;
-    margin: 0 auto;
+max-width: 600px;
+margin: 0 auto;
 }
 
-.pager {
-    max-width: 400px;
-    margin: 0 auto;
+.pager ul { text-align: center;}
+
+.pager ul li { display: inline;}
+
+.pager ul li a
+{
+text-decoration: none;
+padding: .2em 1em;
+color: #000000;
+background-color: rgb(248, 248, 248);
+    -moz-box-shadow:    2px 2px 3px 4px #ccc;
+    -webkit-box-shadow: 2px 2px 3px 4px #ccc;
+    box-shadow:         2px 2px 3px 4px #ccc;
 }
 
-.content-box {
-    background-color: white;
+.inactive_link
+{
+padding: .2em 1em;
+}
+
+.pager ul li a:hover
+{
+    color: #fff;
+    background-color: #369
+}
+
+.read_more {
+    color: #ff9999;
+    text-decoration: none;
+}
+
+a { text-decoration: none; }
+
+a:hover {
+    color: #fff;
+    background-color: #369;
+}
+
+.content_box {
+    background-color: #fff;
     padding: 10px 40px;
     margin-bottom: 15px;
     margin-top: 15px;
 }
 
-
-nav {
-    background-color: white;
-}
+.invisible {visibility: hidden;}
 
 .shadow {
     -moz-box-shadow:    3px 3px 5px 6px #ccc;
@@ -53,12 +134,7 @@ nav {
 }
 
 .center {
-    width: 33%;
     margin: 0 auto;
 }
 
 
-
-ul.plain {
-    list-style-type: none;
-}

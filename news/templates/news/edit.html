@@ -1,8 +1,14 @@
 {% extends "news/base.html" %}
 {% load url from future %}
+{% load static %}
+
+{% block head-extra %}
+<link rel="stylesheet" type="text/css" href="{% static 'news/forms.css' %}" />
+{% endblock %}
+
+{% block logout-redirect %}?next={{ form.instance.get_absolute_url }}{% endblock %}
 
 {% block main %}
-<h1>Simple news site</h1>
 <form action="." method="POST">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" name="save" value="Save" />

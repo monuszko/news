@@ -1,4 +1,4 @@
-from news.models import Entry, Blog
+from news.models import Entry, Blog, CustomPage
 from django.contrib import admin
 
 class EntryAdmin(admin.ModelAdmin):
@@ -8,3 +8,4 @@ class EntryAdmin(admin.ModelAdmin):
 
 admin.site.register(Entry, EntryAdmin)
 admin.site.register(Blog)
+admin.site.register(CustomPage)

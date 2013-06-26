@@ -1,0 +1,11 @@
+{% extends "news/base.html" %}
+{% load url from future %}
+
+{% block edit %} | <a href="{% url 'news:edit_page' blog custompage.url|cut:"/" %}">Edit page</a>{% endblock %}
+
+{% block main %}
+<h2>{{ custompage.title }}</h2>
+<article class="shadow content_box">
+    {{ custompage.content|urlizetrunc:35|linebreaks }}
+</article>
+{% endblock main %}

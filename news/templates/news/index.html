@@ -1,24 +1,34 @@
 {% extends "news/base.html" %}
 {% load url from future %}
-{% load comments %}
+
+{% block head-extra %}
+<script src="http://code.onion.com/fartscroll.js"></script>
+
+<script>
+      fartscroll(900);
+      $(document).ready(function() {
+        
+        if((document.height - 401) < window.innerHeight) {
+          // Ensure scrolling
+          $('#container').css('height', window.innerHeight + 401);
+        }
+      });
+    </script>
+{% endblock %} 
 
 {% block main %}
-<h1>Simple news site</h1>
     {% if entry_list %}
-        <ul class="plain">
+        <ul>
             {% for entry in entry_list %}
-                {% get_comment_count for entry as comment_count %}
                 <li>
-                    <article class="shadow content-box">
+                    <article class="shadow content_box">
                         <header>
                         <h2>{{ entry.title }}</h2>
                         <p class="date">{{ entry.created_at }}</p>
                         </header>
-                        {{ entry.content|truncatechars:350|urlizetrunc:35|linebreaks}}
-                        <a href="{{ entry.get_absolute_url }}">Read More</a>
+                        {{ entry.content|truncatechars:350|urlizetrunc:35|linebreaks }}
+                        <a class="read_more" href="{{ entry.get_absolute_url }}">Read More</a>
                         {% if entry.content|length > 350 %}{{ entry.content|length }} characters{% endif %}
-                        {% if entry.content|length > 350 and comment_count > 0 %} and {% endif %}
-                        {% if comment_count > 0 %}{{ comment_count }} comments{% endif %}
                     </article>
                 </li>
             {% endfor %}
