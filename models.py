@@ -6,11 +6,18 @@ now = utcnow() # replacing - date.now() causes problems with auto_now_add
 
 # TODO: set Site for 'View on site'
 
+class PublicEntryManager(models.Manager):
+    def get_queryset(self):
+        articles = super(PublicEntryManager, self).get_queryset().filter(created_at__gt=utcnow(), title__startswith='Raz')
+        return articles
+
 class Entry(models.Model):
     created_at = models.DateTimeField(default=now, editable=False)
     title      = models.CharField(max_length = 50)
     content    = models.TextField()
     slug       = models.SlugField(unique=True) # unique_for_date is buggy
+    objects    = models.Manager() # default manager
+    public     = PublicEntryManager() # without entries from future
     def __unicode__(self):
         return self.title
     def get_absolute_url(self):
@@ -21,13 +28,13 @@ class Entry(models.Model):
         return reverse('news.views.detail', kwargs={'year': y, 'month': m, 'day': d, 'slug': sl})
     def prev_entry(self):
         try:
-            result = Entry.objects.filter(created_at__lt=self.created_at)[0]
+            result = Entry.public.filter(created_at__lt=self.created_at)[0]
         except IndexError:
             result = None
         return result
     def next_entry(self):
         try:
-            result = Entry.objects.filter(created_at__gt=self.created_at).reverse()[0]
+            result = Entry.public.filter(created_at__gt=self.created_at).reverse()[0]
         except IndexError:
             result = None
         return result
